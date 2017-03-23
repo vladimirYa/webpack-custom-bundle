@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/vladimirYa/webpack-custom-bundle/issues"
   },
-  "homepage": "https://github.com/vladimirYa/webpack-custom-bundle#readme"
+  "homepage": "https://github.com/vladimirYa/webpack-custom-bundle#readme",
+  "devDependencies": {
+    "webpack": "^2.3.1"
+  }
 }
