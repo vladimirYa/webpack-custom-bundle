@@ -1,13 +1,15 @@
 const webpack = require('webpack');
 const path = require('path');
 
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
 module.exports = {
 
     entry: {
         main: './source/app',
         vendor: './source/app/vendor'
     },
-    devtool: "source-map",
+    devtool: NODE_ENV == 'development' ? "cheap-inline-module-source-map" : false,
     output: {
         path: path.resolve(__dirname, "dist/bundles"),
         publicPath: "dist/bundles",
@@ -51,13 +53,24 @@ module.exports = {
             minimize: true,
             debug: false
         }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            NODE_ENV: JSON.stringify(NODE_ENV)
+        })
+    ],
+    watch: NODE_ENV == 'development'
+};
 
+if(NODE_ENV == 'production'){
+    module.exports.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
-            sourceMap: true
-        }),
-        
-        new webpack.HotModuleReplacementPlugin()
-    ],
-    watch: true
-};
+            sourceMap: false,
+            compress:{
+                warnings: false,
+                drop_console: true,
+                unsafe: true
+            }
+        })
+    );
+}
