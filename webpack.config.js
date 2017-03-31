@@ -40,10 +40,8 @@ module.exports = {
         },
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['main', 'vendor']
-        }),
 
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
             __dirname
@@ -53,9 +51,13 @@ module.exports = {
             minimize: true,
             debug: false
         }),
+
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common'
         })
     ],
     watch: NODE_ENV == 'development'
