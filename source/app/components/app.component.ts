@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation} from '@angular/core';
 
 @Component({
     selector: 'app',
-    template: '<h1>Angular 2 bitch</h1>'
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+
 })
 
-export class AppComponent {}
+export class AppComponent {
+    title = 'Angular is easy'
+}

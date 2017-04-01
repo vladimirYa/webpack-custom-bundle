@@ -19,14 +19,20 @@ module.exports = {
 
     module: {
         rules: [{
-            test: /\.tsx?$/,
-            loader: 'ts-loader',
-            exclude: /node_modules/,
-        }, ]
+                test: /\.tsx?$/,
+                use: ['ts-loader', 'angular2-template-loader'],
+                exclude: /node_modules/
+            },
+            {
+                test: /\.(html|css)$/,
+                loader: 'raw-loader',
+                exclude: /\.async\.(html|css)$/
+            },
+        ]
     },
 
     resolve: {
-        extensions: [".tsx", ".ts", ".js"]
+        extensions: [".tsx", ".ts", ".js", ".css"]
     },
     devServer: {
         contentBase: __dirname,
@@ -60,15 +66,24 @@ module.exports = {
             name: 'common'
         })
     ],
-    watch: NODE_ENV == 'development'
+    watch: NODE_ENV == 'development',
+
+    node: {
+        global: true,
+        crypto: 'empty',
+        process: true,
+        module: false,
+        clearImmediate: false,
+        setImmediate: false
+    }
 };
 
-if(NODE_ENV == 'production'){
+if (NODE_ENV == 'production') {
     module.exports.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
             sourceMap: false,
-            compress:{
+            compress: {
                 warnings: false,
                 drop_console: true,
                 unsafe: true
